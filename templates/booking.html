@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block booking %}
+  <main class="container mt-3">
+    <div class="row mt-5">
+      <div class="col-10 col-md-6 offset-1 offset-md-3 mb-3">
+          {% for teacher in data %}
+            {% if teacher.id == id %}
+        <form action="/booking_done/" method="post" class="card mb-3">
+        {{ form.csrf_token() }}
+          <div class="card-body text-center pt-5">
+            <img src="{{ teacher.picture }}" class="mb-3" width="95" alt="">
+            <h2 class="h5 card-title mt-2 mb-2">{{ teacher.name }}</h2>
+            <p class="my-1">Запись на пробный урок</p>
+            <p class="my-1">{{ day_of_week[day] }}, {{ hour }}:00</p>
+          </div>
+          <hr />
+          <div class="card-body mx-3">
+              <div class="row">
+                  {{ form.clientWeekday(class_="form-control", type="hidden", value=day) }}
+                  {{ form.clientTime(class_="form-control", type="hidden", value=hour) }}
+                  {{ form.clientTeacher(class_="form-control", type="hidden", value=id) }}
+              </div>
+
+            <label class="mb-1 mt-2" for="clientName">Вас зовут</label>
+              {{ form.name(class_="form-control", type="text") }}
+            <label class="mb-1 mt-2" for="clientPhone">Ваш телефон</label>
+              {{ form.phone(class_="form-control", type="tel") }}
+              {{ form.submit(type="submit", class_="btn btn-primary btn-block mt-4") }}
+
+          </div>
+        </form>
+          {% endif %}
+      {% endfor %}
+      </div>
+    </div>
+  </main>
+{% endblock %}
